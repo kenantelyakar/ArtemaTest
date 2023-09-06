@@ -1,0 +1,5 @@
+---
+applications:
+- name: eczacibasi-componentread
+  memory: 128M
+  path: "."
