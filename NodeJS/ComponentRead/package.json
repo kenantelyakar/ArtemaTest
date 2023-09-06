@@ -1,11 +1,16 @@
 {
-  "name": "eczacibasi-componentread",
-  "description": "Eczacibasi component read node.js",
+  "name": "nodejs-postgres",
+  "description": "Postgresql NodeJS test",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "express": "latest",
-    "body-parser": "latest"
+    "express": "4.15.3",
+    "body-parser": "1.17.2",
+    "pg-promise": "5.7.1",
+    "@sap/xsenv": "^1.2.6"
+  },
+  "engines": {
+    "node": "6.x.x"
   },  
   "scripts": {
     "start": "node server.js"

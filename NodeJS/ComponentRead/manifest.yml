@@ -1,5 +1,8 @@
 ---
 applications:
-- name: eczacibasi-componentread
+- name: nodejspostgres
+  path: .
+  buildpack: nodejs_buildpack
   memory: 128M
-  path: "."
+  services:
+  - postgresql-cf
