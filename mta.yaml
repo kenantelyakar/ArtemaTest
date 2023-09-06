@@ -2,7 +2,7 @@ _schema-version: '3.2'
 ID: EczPodPlugins
 version: 0.0.1
 modules:
- - name: vendor-viewplugin
+ - name: EczViewPlugins
    type: html5
    path: podplugins
    parameters:
@@ -24,17 +24,17 @@ modules:
    build-parameters:
     supported-platforms: [CF]
    requires:
-    - name: uaa_ExampleViewPluginsMTA
-    - name: dest_ExampleViewPluginsMTA
+    - name: uaa_EczPodPlugins
+    - name: dest_EczPodPlugins
 resources:
- - name: uaa_ExampleViewPluginsMTA
+ - name: uaa_EczPodPlugins
    parameters:
       path: ./xs-security.json
       service-plan: application
       service: xsuaa
    type: org.cloudfoundry.managed-service
 
- - name: dest_ExampleViewPluginsMTA
+ - name: dest_EczPodPlugins
    parameters:
       service-plan: lite
       service: destination
