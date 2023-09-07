@@ -2,6 +2,7 @@
 
 function getAll(db,res) {
     const query = 'SELECT * FROM Users';
+    console.log(db);
     db.manyOrNone(query)
         .then(function(data) {
             // success;
