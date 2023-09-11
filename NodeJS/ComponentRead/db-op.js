@@ -2,18 +2,20 @@
 
 function getAll(db,res) {
     const query = 'SELECT * FROM Users';
-    console.log(db);
     db.manyOrNone(query)
         .then(function(data) {
             // success;
             res.status(200).json(data);
+            console.log(data);
         })
         .catch(function(error) {
             // error;
             // console.log(error);
             res.status(500);
             res.end('Error accessing DB: ' + JSON.stringify(error));
+            console.log(error);
         });
+        
 }
 
 function getOne(db,res,id) {

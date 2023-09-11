@@ -28,8 +28,9 @@ function returnUriToDB() {
 
 function getDB(cb) {
     let pgp = require('pg-promise')({
-        // Initialization Options
+        ssl:true
     });
+    
     var db = pgp(returnUriToDB());
     let sql = createTable;
     db.query(sql)
@@ -46,6 +47,7 @@ function getDB(cb) {
 }
 
 module.exports = {
-    getDB: getDB
+    getDB: getDB,
+    returnUriToDB : returnUriToDB
 };
 
