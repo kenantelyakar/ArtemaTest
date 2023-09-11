@@ -9,11 +9,12 @@
     "assert-plus" : "1.0.0",
     "express": "4.15.3",
     "body-parser": "1.17.2",
-    "pg-promise": "5.7.1",
-    "@sap/xsenv": "^1.2.6"
+    "pg-promise": "11.5.4",
+    "@sap/xsenv": "^4.0.0",
+    "pg": "8.11.3"
   },
   "engines": {
-    "node": "16.20.0"
+    "node": "18.16.0"
   },  
   "scripts": {
     "start": "node --inspect server.js"
