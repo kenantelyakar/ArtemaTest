@@ -8,7 +8,7 @@ var PORT = process.env.PORT || 8088;
 export const server = http.createServer((req,res) =>{
     let responseData = AxiosCaller.callDMCDestination(ApiType.ORDER, "/orders",RequestType.GET, {
         plant:"PP01",
-        order:"PP01453"
+        order:"100634"
     })
     res.writeHead(200, {"Content-Type": "application/json"});
     res.end(JSON.stringify({

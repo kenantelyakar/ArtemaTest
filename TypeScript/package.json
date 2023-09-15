@@ -9,7 +9,7 @@
   },
   "scripts": {
     "build": "tsc",
-    "start": "node src",
+    "start": "node --inspect src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
