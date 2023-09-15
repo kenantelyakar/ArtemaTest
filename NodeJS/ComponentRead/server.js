@@ -1,10 +1,10 @@
 'use strict';
 const express = require('express');
 const bodyParser = require('body-parser');
-
 const dbConn = require('./db-conn');
 const dbOp = require('./db-op');
-
+const sdkOp = require('./sdk-op');
+import OrderListApi  from './generated/sapdme_order';
 var _db = undefined;
 
 
@@ -36,6 +36,12 @@ app.put(url + '/:id', function (req, res) {
 app.delete(url + '/:id', function (req, res) {
     dbOp.deleteOne(_db, res, req.params.id);
 });
+
+/*ECZ */
+app.get('/bomdetails/:orderid', function (req, res) {
+    sdkOp.getComponents(req.params.orderid,res,OrderListApi);
+});
+/*ECZ */
 
 function setDBCallback(error, db) {
     if (error !== null) {

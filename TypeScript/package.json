@@ -1,0 +1,23 @@
+{
+  "name": "typescript",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": {
+    "node": "20.4.0",
+    "npm": "9.7.2"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node src",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "sap-cf-axios" : "0.4.10",
+    "@types/node": "^20.6.0",
+    "typescript": "^4.9.5"
+  }
+}

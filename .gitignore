@@ -1,4 +1,8 @@
 POD/podplugins/node_modules
 POD/mta_archives
 .vscode
+.idea
 NodeJS/ComponentRead/node_modules
+node_modules
+openapi
+generated

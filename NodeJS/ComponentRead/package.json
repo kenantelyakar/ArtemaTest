@@ -1,6 +1,7 @@
 {
   "name": "nodejs-postgres",
   "description": "Postgresql NodeJS test",
+  "type": "module",
   "version": "0.0.1",
   "private": true,
   "dependencies": {
@@ -11,7 +12,9 @@
     "body-parser": "1.17.2",
     "pg-promise": "11.5.4",
     "@sap/xsenv": "^4.0.0",
-    "pg": "8.11.3"
+    "pg": "8.11.3",
+    "@sap-cloud-sdk/openapi-generator": "3.4.0",
+    "@sap-cloud-sdk/openapi": "3.4.0"
   },
   "engines": {
     "node": "18.16.0"
