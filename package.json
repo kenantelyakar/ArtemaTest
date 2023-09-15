@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "@sap-cloud-sdk/openapi-generator": "^3.4.0",
+    "@types/node": "^20.6.0"
+  }
+}
