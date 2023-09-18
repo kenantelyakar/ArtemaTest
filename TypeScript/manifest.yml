@@ -1,6 +1,6 @@
 ---
 applications:
-- name: nodejspostgres
+- name: rndbackend
   path: .
   default-route: true
   buildpack: nodejs_buildpack
