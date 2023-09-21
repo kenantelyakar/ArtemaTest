@@ -6,3 +6,6 @@ NodeJS/ComponentRead/node_modules
 node_modules
 openapi
 generated
+package-lock.json
+.run
+TypeScript/src/apisdk
