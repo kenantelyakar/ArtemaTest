@@ -1,25 +1,15 @@
 {
     "components" : [
         {
-           "id": "vendorViewPlugin",
+           "id": "inductionComponentEntry",
            "type": "VIEW_PLUGIN",
-           "allowMultipleInstances": false,
-           "name": "com.eczacibasi.viewplugins.exampleViewPlugin",
-           "propertyEditor": "com.eczacibasi.viewplugins.exampleViewPlugin.builder.PropertyEditor",
-           "i18n": "com.eczacibasi.viewplugins.exampleViewPlugin.i18n.i18n",
+           "allowMultipleInstances": true,
+           "name": "com.eczacibasi.viewplugins.inductionComponentEntry",
+           "propertyEditor": "com.eczacibasi.viewplugins.inductionComponentEntry.builder.PropertyEditor",
+           "i18n": "com.eczacibasi.viewplugins.inductionComponentEntry.i18n.i18n",
            "productionProcessEnabled": true,
-           "productionProcessTitle": "Example View Plugin",
+           "productionProcessTitle": "Induction Component Entry -DEV",
            "supportedPodTypes": ["WORK_CENTER","OPERATION", "ORDER", "OTHER", "MONITOR"]
-        },
-        {
-            "id": "vendorViewPluginTemplate",
-            "type": "VIEW_PLUGIN",
-            "allowMultipleInstances": false,
-            "name": "com.eczacibasi.viewplugins.viewPluginTemplate",
-            "propertyEditor": "com.eczacibasi.viewplugins.viewPluginTemplate.builder.PropertyEditor",
-            "i18n": "com.eczacibasi.viewplugins.viewPluginTemplate.i18n.i18n",
-            "productionProcessEnabled": false,
-            "supportedPodTypes": ["WORK_CENTER","OPERATION", "ORDER", "OTHER", "MONITOR"]
         }
     ]
 }

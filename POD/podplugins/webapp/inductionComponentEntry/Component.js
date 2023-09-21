@@ -6,7 +6,7 @@ sap.ui.define([
     /**
      * 
      */
-    var Component = ProductionUIComponent.extend("com.eczacibasi.viewplugins.viewPluginTemplate.Component", {
+    var Component = ProductionUIComponent.extend("com.eczacibasi.viewplugins.inductionComponentEntry.Component", {
         metadata : {
             manifest : "json"
         }

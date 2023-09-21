@@ -1,6 +1,6 @@
 {
     "sap.app": {
-        "id": "com.eczacibasi.viewplugins.exampleViewPlugin",
+        "id": "com.eczacibasi.viewplugins.inductionComponentEntry",
         "type": "component",
         "applicationVersion": {
             "version": "1.0.0"
@@ -10,9 +10,9 @@
 
     "sap.ui5": {
         "rootView": {
-            "viewName": "com.eczacibasi.viewplugins.exampleViewPlugin.view.PluginView",
+            "viewName": "com.eczacibasi.viewplugins.inductionComponentEntry.view.PluginView",
             "type": "XML",
-            "id": "exampleViewPlugin"
+            "id": "viewPluginTemplate"
         },
         "resources": {
             "css": [{
@@ -23,7 +23,7 @@
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
-                    "bundleName": "com.eczacibasi.viewplugins.exampleViewPlugin.i18n.i18n"
+                    "bundleName": "com.eczacibasi.viewplugins.inductionComponentEntry.i18n.i18n"
                 }
             }
         }

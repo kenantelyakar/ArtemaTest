@@ -9,6 +9,7 @@
   },
   "scripts": {
     "build": "tsc",
+    "deploy": "tsc & cf8 push",
     "start": "node --inspect src",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

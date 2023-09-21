@@ -1,13 +1,14 @@
 sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/dm/dme/podfoundation/controller/PluginViewController",
-    "sap/base/Log"
-], function (JSONModel, PluginViewController, Log) {
+    "sap/base/Log",
+    "../scripts/apiCaller"
+], function (JSONModel, PluginViewController, Log, ApiCall) {
     "use strict";
 
     var oLogger = Log.getLogger("viewPluginTemplate", Log.Level.INFO);
     
-    var oPluginViewTemplateController = PluginViewController.extend("com.eczacibasi.viewplugins.viewPluginTemplate.controller.PluginView", {
+    var oPluginViewTemplateController = PluginViewController.extend("com.eczacibasi.viewplugins.inductionComponentEntry.controller.PluginView", {
         metadata: {
             properties: {
             }
@@ -54,7 +55,11 @@ sap.ui.define([
 
         onOperationChangeEvent: function (sChannelId, sEventId, oData) {
             // don't process if same object firing event
+            var plant = sap.dm.dme.util.PlantSettings.getCurrentPlant();
+            var sfc = this.getPodSelectionModel().getOperations()[0].sfc;
+            console.log("Plant:" + plant + " SFC:" + sfc);
             if (this.isEventFiredByThisPlugin(oData)) {
+
                 return;
             }
         },

@@ -32,10 +32,14 @@ export abstract class AssemblyServices{
                         if(x.attribute == "TOLERANCE")
                            return x.value;
                     }));
-                oC.theoreticQuantity = c.quantity;
-                oC.upperLimit = oC.tolerance*oC.theoreticQuantity;
+                if(oC.tolerance == 0)
+                    oC.tolerance = 1.10;
+                oC.materialQty = c.quantity;
+                oC.theoreticQuantity = c.totalQuantity;
+                oC.upperLimit = oC.tolerance * oC.theoreticQuantity;
                 oC.uom = c.unitOfMeasure;
                 oC.material = c.material.material;
+
                oCArray.push(oC);
             }
             componentsResponse.orderQuantity = oI.releasedQuantity;
