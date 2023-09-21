@@ -1,3 +1,4 @@
 export enum ApiType{
-    ORDER = '/order/v1'
+    ORDER = '/order/v1',
+    BOM = '/bom/v1'
 }

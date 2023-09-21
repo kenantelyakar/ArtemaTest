@@ -1,24 +1,24 @@
-import express, { Express, Request, Response } from 'express';
+import express, {Express, NextFunction, Request, Response} from 'express';
 import dotenv from 'dotenv';
-import AxiosCaller from "./util/AxiosCaller";
-import {ApiType} from "./enum/ApiType";
-import {RequestType} from "./enum/RequestType";
+import {AssemblyServices} from "./induction/component/impl/AssemblyServices";
+import {BOM} from "./apisdk/sapdme_bom";
+import {ComponentEntry} from "./dto/induction/component/ComponentEntry";
 
 var PORT = process.env.PORT || 8088;
-
 dotenv.config();
-
 const app: Express = express();
+
 const port = process.env.PORT;
 
-app.get('/', async (req: Request, res: Response) => {
-    const response = await AxiosCaller.callDMCDestination(ApiType.ORDER, "/orders",RequestType.GET, {
-        plant:"PP01",
-        order:"100634"
-    });
-    res.send(response);
-});
 
+app.get('/getBom', (req: Request, res: Response, next :NextFunction) => {
+    let plant  = req.query.plant as string;
+    let order  = req.query.order as string;
+    AssemblyServices.getBOMInfoByShopOrder(plant,order).then((v: ComponentEntry)=>{
+        res.json(v);
+    }).catch(err => next(err));
+
+});
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at ${port}`);
 });

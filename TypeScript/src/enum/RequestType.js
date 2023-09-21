@@ -7,4 +7,5 @@ var RequestType;
     RequestType["GET"] = "GET";
     RequestType["PUT"] = "PUT";
     RequestType["DELETE"] = "DELETE";
+    RequestType["PATCH"] = "PATCH";
 })(RequestType = exports.RequestType || (exports.RequestType = {}));

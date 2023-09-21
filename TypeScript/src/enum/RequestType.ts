@@ -2,5 +2,6 @@ export enum RequestType{
     POST ='POST',
     GET = 'GET',
     PUT = 'PUT',
-    DELETE = 'DELETE'
+    DELETE = 'DELETE',
+    PATCH = 'PATCH'
 }
