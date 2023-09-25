@@ -6,8 +6,8 @@ function apiGET (service , param,  afterMethod) {
         url: API_URL + service +  "?" + searchParams,
         type: "GET",
         async: false,
-        contentType: "application/json",
         success: function (data) {
+            console.log("Ajax Response: " + data);
             afterMethod(data);
         },
         error: function (error) {
