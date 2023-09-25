@@ -7,14 +7,17 @@ dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 
-
-app.get('/getBom', (req: Request, res: Response, next :NextFunction) => {
+app.get('/getBomBySfc', (req: Request, res: Response, next :NextFunction) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+    );
     let plant  = req.query.plant as string;
-    let order  = req.query.order as string;
-    AssemblyServices.getBOMInfoByShopOrder(plant,order).then((v: ComponentEntry)=>{
-        res.json(v);
+    let sfc    = req.query.sfc as string;
+    AssemblyServices.getBOMInfoBySfc(plant,sfc).then((v: void| ComponentEntry)=>{
+            res.json(v);
     }).catch(err => next(err));
-
 });
 app.listen(port, () => {
     console.log(`⚡️[server]: Server is running at ${port}`);

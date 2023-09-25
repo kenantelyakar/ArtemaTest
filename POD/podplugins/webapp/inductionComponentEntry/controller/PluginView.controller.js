@@ -45,6 +45,9 @@ sap.ui.define([
 
         onAfterRendering: function () {
         },
+        refreshComponentData: function(oData){
+          console.log(oData);
+        },
 
         onPodSelectionChangeEvent: function (sChannelId, sEventId, oData) {
             // don't process if same object firing event
@@ -58,8 +61,12 @@ sap.ui.define([
             var plant = sap.dm.dme.util.PlantSettings.getCurrentPlant();
             var sfc = this.getPodSelectionModel().getOperations()[0].sfc;
             console.log("Plant:" + plant + " SFC:" + sfc);
+            var params = {
+                plant: plant,
+                sfc : sfc
+            }
+            apiGET("getBomBySfc",params,this.refreshComponentData).bind(this);
             if (this.isEventFiredByThisPlugin(oData)) {
-
                 return;
             }
         },
