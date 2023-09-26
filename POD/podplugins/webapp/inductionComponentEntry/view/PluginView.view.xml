@@ -37,7 +37,7 @@
                                 <Column width="auto">
                                     <m:Label text="{i18n>matCode}" />
                                     <template>
-                                        <m:Text text="{componentsModel>matCode}" />
+                                        <m:Text text="{componentsModel>material}" />
                                     </template>
                                 </Column>
                                 <Column width="auto">
@@ -49,13 +49,19 @@
                                 <Column width="auto">
                                     <m:Label text="{i18n>maxLimit}" />
                                     <template>
-                                        <m:ObjectStatus text="{componentsModel>maxLimit}" />
+                                        <m:ObjectStatus text="{componentsModel>upperLimit}" />
                                     </template>
                                 </Column>
                                 <Column width="auto">
                                     <m:Label text="{i18n>theoricQty}" />
                                     <template>
-                                        <m:Text text="{componentsModel>theoricQty}" />
+                                        <m:Text text="{componentsModel>theoreticQty}" />
+                                    </template>
+                                </Column>
+                                <Column width="auto">
+                                    <m:Label text="{i18n>uom}" />
+                                    <template>
+                                        <m:Text text="{componentsModel>uom}" />
                                     </template>
                                 </Column>
                                 <Column width="auto">

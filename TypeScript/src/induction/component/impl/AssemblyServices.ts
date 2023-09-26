@@ -1,4 +1,4 @@
-import {BOM, CustomValue} from "../../../apisdk/sapdme_bom";
+import {BOM, CustomValue} from '../../../apisdk/sapdme_bom';
 import {BomApi} from "../../../srv/BomApi";
 import {OrderApi} from "../../../srv/OrderApi";
 import {ComponentEntry} from "../../../dto/induction/component/ComponentEntry";
@@ -20,7 +20,10 @@ export abstract class AssemblyServices{
                             theoreticQuantity: 0,
                             upperLimit: 0,
                             totalQuantity: 0,
-                            tolerance: 1.10
+                            tolerance: 1.10,
+                            sumQty:0,
+                            userDefQty:0,
+                            userDeleteQty:0
                         };
                         if (c.customValues != undefined)
                             oC.tolerance = Number(c.customValues.filter((x: CustomValue) => {

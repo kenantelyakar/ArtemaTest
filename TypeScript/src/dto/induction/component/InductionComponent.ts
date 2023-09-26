@@ -5,5 +5,8 @@ export type InductionComponent = {
     upperLimit: number,
     theoreticQuantity: number,
     totalQuantity:number,
-    tolerance: number
+    tolerance: number,
+    sumQty: number,
+    userDefQty: number,
+    userDeleteQty: number
 }
