@@ -17,8 +17,10 @@ class AxiosCaller {
         return __awaiter(this, void 0, void 0, function* () {
             if (reqType == RequestType_1.RequestType.GET) {
                 const searchParams = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
-                return dmcAxios.get(apiType + method + "?" + searchParams)
-                    .then(function (value) { return value.data; })
+                return yield dmcAxios.get(apiType + method + "?" + searchParams)
+                    .then(function (value) {
+                    return __awaiter(this, void 0, void 0, function* () { return yield value.data; });
+                })
                     .catch(catchError);
                 function catchError(err) {
                     let resp;

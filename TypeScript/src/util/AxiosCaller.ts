@@ -9,8 +9,8 @@ class AxiosCaller {
     static async callDMC(apiType: ApiType, method: string, reqType: RequestType, params: Object): Promise<any> {
         if (reqType == RequestType.GET) {
             const searchParams = Object.entries(params).map(([key, val]) => `${key}=${val}`).join('&');
-            return dmcAxios.get(apiType+method+"?"+searchParams)
-                .then(function (value: AxiosResponse) {return value.data;})
+            return await dmcAxios.get(apiType+method+"?"+searchParams)
+                .then(async function (value: AxiosResponse) {return await value.data;})
                 .catch(catchError)
             function catchError(err: any) {
                 let resp: ApiResponse;

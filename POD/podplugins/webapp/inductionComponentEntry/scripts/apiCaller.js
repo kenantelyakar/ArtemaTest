@@ -18,6 +18,25 @@ function apiGET (service , param,  afterMethod) {
         },
     });
 }
+function apiPOST (service , param,  afterMethod) {
+    $.ajax({
+        url: API_URL + service,
+        type: "POST",
+        data:param,
+        async: false,
+        success: function (data) {
+            console.log("Ajax Response: " + data);
+            afterMethod(data);
+        },
+        error: function (error) {
+            sap.m.MessageBox.error(error.responseText, {
+                title: "Error",
+                actions: sap.m.MessageBox.Action.CLOSE
+            });
+        },
+    });
+}
+/*
 function apiPOST (service, param, method, afterMethod) {
     $.ajax({
         url: API_URL + service,
@@ -37,7 +56,7 @@ function apiPOST (service, param, method, afterMethod) {
     });
 }
 
-
+*/
 function standardAPI(param, method, url) {
 
     return new Promise(function (resolve, reject) {

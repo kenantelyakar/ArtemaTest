@@ -16,7 +16,7 @@
                 <l:BlockLayoutRow accentCells="infoRow">
                     <l:BlockLayoutCell id="maxChargeQty" >
                         <m:Title text="{i18n>maxChargeQty}" level="H5"/>
-                        <m:Title id="chargeQty" text="-" level="H5"/>
+                        <m:Title id="chargeQty" text="{componentsModel>/bomQuantity}" level="H5"/>
                     </l:BlockLayoutCell>
                     <l:BlockLayoutCell id="deleteBlock">
                         <m:CheckBox text="{i18n>deleteQtyActive}" id="deleteMode" selected="false" />
@@ -24,7 +24,7 @@
                 </l:BlockLayoutRow>
                 <l:BlockLayoutRow accentCells="tableRow">
                     <l:BlockLayoutCell id="infoBar">
-                        <Table id="componentsListTable" rows="{componentsModel>/componentsList}"
+                        <Table id="componentsListTable" rows="{componentsModel>/components}"
                                selectionMode="MultiToggle" visibleRowCount="7" paste="onPaste"
                                ariaLabelledBy="title">
                             <columns>
@@ -43,7 +43,7 @@
                                 <Column width="auto">
                                     <m:Label text="{i18n>matDesc}" />
                                     <template>
-                                        <m:Text text="{componentsModel>matDesc}" />
+                                        <m:Text text="{componentsModel>materialDesc}" />
                                     </template>
                                 </Column>
                                 <Column width="auto">
@@ -55,7 +55,7 @@
                                 <Column width="auto">
                                     <m:Label text="{i18n>theoricQty}" />
                                     <template>
-                                        <m:Text text="{componentsModel>theoreticQty}" />
+                                        <m:Text text="{componentsModel>theoreticQuantity}" />
                                     </template>
                                 </Column>
                                 <Column width="auto">
