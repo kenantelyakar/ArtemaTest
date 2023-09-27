@@ -1,4 +1,4 @@
-import {BOM, BomComponent, CustomValue} from '../../../apisdk/sapdme_bom';
+import {BomComponent, CustomValue} from '../../../apisdk/sapdme_bom';
 import {BomApi} from "../../../srv/BomApi";
 import {OrderApi} from "../../../srv/OrderApi";
 import {ComponentEntry} from "../../../dto/induction/component/ComponentEntry";
@@ -65,6 +65,10 @@ export abstract class AssemblyServices{
         });
 
 
+
+    }
+
+    static async saveInductionComponents(objectData: InductionComponent[], plant: string, userId: string){
 
     }
 }

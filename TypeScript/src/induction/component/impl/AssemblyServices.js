@@ -71,5 +71,9 @@ class AssemblyServices {
             }));
         });
     }
+    static saveInductionComponents(objectData, plant, userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+        });
+    }
 }
 exports.AssemblyServices = AssemblyServices;

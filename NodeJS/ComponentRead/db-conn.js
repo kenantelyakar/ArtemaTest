@@ -13,13 +13,23 @@ let dbConf = {
   }
 }
 let sslCert = '';
-const createTable =
-    'CREATE TABLE IF NOT EXISTS Users \
+const createTableZSFCASSY =
+    'CREATE TABLE IF NOT EXISTS Z_SFC_ASSY \
         ( \
             id serial, \
-            name varchar(100), \
-            color varchar(100), \
-            material varchar(100), \
+            SFC_BO nvarchar(412), \
+            ROUTER_BO nvarchar(412), \
+            OPERATION_BO nvarchar(412), \
+            RESOURCE_BO nvarchar(412), \
+            SHOP_ORDER_BO nvarchar(412), \
+            COMPONENT_BO nvarchar(412), \
+            QTY decimal(13,2), \
+            BOM_COMPONENT_BO nvarchar(412), \
+            INSUSER nvarchar(40), \
+            INSDATE TIMESTAMP, \
+            UPDUSER nvarchar(40),\
+            UPDDATE TIMESTAMP, \
+            IS_DELETED nvarchar(1), \
             PRIMARY KEY (id) \
         )';
 

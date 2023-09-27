@@ -7,8 +7,7 @@ sap.ui.define([
 ], function (JSONModel, PluginViewController, Log, ApiCall, MessageToast) {
     "use strict";
 
-    var oLogger = Log.getLogger("viewPluginTemplate", Log.Level.INFO);
-    
+
     var oPluginViewTemplateController = PluginViewController.extend("com.eczacibasi.viewplugins.inductionComponentEntry.controller.PluginView", {
         metadata: {
             properties: {
@@ -95,7 +94,6 @@ sap.ui.define([
                 return;
             }
             const oData =  this.componentsModel.getData().components;
-            let oTable = this.getView().byId("componentsListTable");
             // Tum satirlari infoya cek
             oData.map(function (x) {
                 x.valueState = sap.ui.core.ValueState.Information;
@@ -173,7 +171,8 @@ sap.ui.define([
             var reqBody = {
                 componentsList: this.componentsModel.getData().components,
                 site: plant,
-                insUser: this.getUserId()
+                insUser: this.getUserId(),
+                sfc: this.getPodSelectionModel().getOperations()[0].sfc
             };
 
             /*standardAPIPOST(JSON.stringify(reqBody), reqMethod, url, this.formId, this.site)
@@ -214,6 +213,7 @@ sap.ui.define([
             };
             apiGET("getBomBySfc",params,this.refreshComponentData.bind(this)).bind(this);
             if (this.isEventFiredByThisPlugin(oData)) {
+                console.log(oData);
                 return;
             }
         },
@@ -221,6 +221,7 @@ sap.ui.define([
         onWorkListSelectEvent: function (sChannelId, sEventId, oData) {
             // don't process if same object firing event
             if (this.isEventFiredByThisPlugin(oData)) {
+                console.log(oData);
                 return;
             }
         },
