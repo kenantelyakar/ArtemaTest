@@ -1,13 +1,13 @@
 import {IDatabase, IMain} from 'pg-promise';
 import {IResult} from 'pg-promise/typescript/pg-subset';
-import {IUser} from '../models';
-import {users as sql} from '../sql';
+import {ISfcAssy} from '../models';
+import {sfcAssy as sql} from '../sql';
 
 /*
  This repository mixes hard-coded and dynamic SQL, just to show how to use both.
 */
 
-export class UsersRepository {
+export class SfcAssyRepository {
 
     /**
      * @param db
@@ -49,32 +49,35 @@ export class UsersRepository {
     }
 
     // Adds a new user, and returns the new object;
-    add(name: string): Promise<IUser> {
-        return this.db.one(sql.add, name);
+    add(sfcBo: string,shopOrderBo: string,resourceBo: string,operationBo:string,componentBo: string ,qty: number,bomComponentBo: string, insUser: string): Promise<ISfcAssy> {
+        return this.db.one(sql.add, [sfcBo,shopOrderBo,resourceBo,operationBo,componentBo,qty,bomComponentBo,insUser,Date.now()]);
     }
 
     // Tries to delete a user by id, and returns the number of records deleted;
-    remove(id: number): Promise<number> {
-        return this.db.result('DELETE FROM users WHERE id = $1', +id, (r: IResult) => r.rowCount);
+    removeById(id: number): Promise<number> {
+        return this.db.result('DELETE FROM Z_SFC_ASSY WHERE id = $1', +id, (r: IResult) => r.rowCount);
     }
 
     // Tries to find a user from id;
-    findById(id: number): Promise<IUser | null> {
-        return this.db.oneOrNone('SELECT * FROM users WHERE id = $1', +id);
+    findById(id: number): Promise<ISfcAssy | null> {
+        return this.db.oneOrNone('SELECT * FROM Z_SFC_ASSY WHERE id = $1', +id);
     }
 
     // Tries to find a user from name;
-    findByName(name: string): Promise<IUser | null> {
-        return this.db.oneOrNone('SELECT * FROM users WHERE name = $1', name);
+    findBySfc(sfcBo: string): Promise<ISfcAssy | null> {
+        return this.db.oneOrNone('SELECT * FROM Z_SFC_ASSY WHERE SFC_BO = $1', sfcBo);
+    }
+    markAsDeleteBySfc(sfcBo: string):Promise<number> {
+        return this.db.result('UPDATE Z_SFC_ASSY SET IS_DELETED = ${"X"} WHERE SFC_BO = ${sfcBo}', [] , (r: IResult) => r.rowCount);
     }
 
     // Returns all user records;
-    all(): Promise<IUser[]> {
-        return this.db.any('SELECT * FROM users');
+    all(): Promise<ISfcAssy[]> {
+        return this.db.any('SELECT * FROM Z_SFC_ASSY');
     }
 
     // Returns the total number of users;
     total(): Promise<number> {
-        return this.db.one('SELECT count(*) FROM users', [], (a: { count: string }) => +a.count);
+        return this.db.one('SELECT count(*) FROM Z_SFC_ASSY', [], (a: { count: string }) => +a.count);
     }
 }

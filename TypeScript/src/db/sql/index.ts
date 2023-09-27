@@ -16,21 +16,14 @@ import {join} from 'path';
 // is very easy to overcome by using only Named Parameters for your query formatting.
 ////////////////////////////////////////////////////////////////////////////////////////////////
 
-export const users = {
-    create: sql('users/create.sql'),
-    empty: sql('users/empty.sql'),
-    init: sql('users/init.sql'),
-    drop: sql('users/drop.sql'),
-    add: sql('users/add.sql')
+export const sfcAssy = {
+    create: sql('sfcAssy/create.sql'),
+    empty: sql('sfcAssy/empty.sql'),
+    init: sql('sfcAssy/init.sql'),
+    drop: sql('sfcAssy/drop.sql'),
+    add: sql('sfcAssy/add.sql')
 };
 
-export const products = {
-    create: sql('products/create.sql'),
-    empty: sql('products/empty.sql'),
-    drop: sql('products/drop.sql'),
-    find: sql('products/find.sql'),
-    add: sql('products/add.sql')
-};
 
 ///////////////////////////////////////////////
 // Helper for linking to external query files;

@@ -5,13 +5,18 @@
   For example, schemats: https://github.com/sweetiq/schemats
 */
 
-export interface IUser {
+export interface ISfcAssy {
     id: number;
-    name: string;
-}
-
-export interface IProduct {
-    id: number;
-    user_id: number;
-    name: string;
+    sfcBo: string;
+    shopOrderBo: string;
+    resourceBo: string;
+    operationBo: string;
+    componentBo: string;
+    qty: number;
+    bomComponentBo: string;
+    insUser: string;
+    insDate: Date;
+    updUser: string;
+    updDate: Date;
+    isDeleted: string;
 }

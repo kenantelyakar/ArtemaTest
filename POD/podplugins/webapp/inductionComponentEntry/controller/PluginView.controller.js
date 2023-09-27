@@ -167,20 +167,27 @@ sap.ui.define([
                 return false;
             const plant = sap.dm.dme.util.PlantSettings.getCurrentPlant();
             var reqMethod = "POST";
-            var url = "/saveInductionComponents";
+            var url = "saveInductionComponents";
             var reqBody = {
                 componentsList: this.componentsModel.getData().components,
                 site: plant,
                 insUser: this.getUserId(),
-                sfc: this.getPodSelectionModel().getOperations()[0].sfc
+                sfc: this.getPodSelectionModel().getOperations()[0].sfc,
+                shopOrder: "",
+                operation: "",
+                resource: "",
+                material: ""
             };
-
+            apiPOST(url,reqBody,this.saveComponent);
             /*standardAPIPOST(JSON.stringify(reqBody), reqMethod, url, this.formId, this.site)
                 .then(
                     function (data) {
                         this.saveHandler(data);
                     }.bind(this)
                 );*/
+        },
+        saveComponent : function (oData){
+          console.log(oData);
         },
         addInputChanged: function (oEvent) {
             let oModel = this.getView().getModel("componentsModel");

@@ -5,6 +5,9 @@ import {ComponentEntry} from "../../../dto/induction/component/ComponentEntry";
 import {InductionComponent} from "../../../dto/induction/component/InductionComponent";
 import {MaterialApi} from "../../../srv/MaterialApi";
 import {MaterialResponse} from "../../../apisdk/sapdme_material";
+import {db} from '../../../db';
+import {ApiResponse} from "../../../dto/ApiResponse";
+import {ISfcAssy} from "../../../db/models";
 
 export abstract class AssemblyServices{
     static async getBOMInfoBySfc(plant: string , sfc: string): Promise<ComponentEntry>{
@@ -54,7 +57,7 @@ export abstract class AssemblyServices{
 
                         oCArray.push(oC);
                     }
-                    oB
+
                     componentsResponse.orderQuantity = orderResp.releasedQuantity;
                     componentsResponse.order = orderResp.order;
                     componentsResponse.bomQuantity = Number(oB[0].customValues.filter((a: CustomValue)=> {return a.attribute == "BOM_QUANTITY"})[0].value);
@@ -68,7 +71,22 @@ export abstract class AssemblyServices{
 
     }
 
-    static async saveInductionComponents(objectData: InductionComponent[], plant: string, userId: string){
+    static async saveInductionComponents(sfcBo: string,shopOrderBo: string, operationBo: string, resourceBo: string,prodMaterialBo: string,objectData: InductionComponent[], plant: string, userId: string):Promise<ApiResponse>{
+        let resp :ApiResponse= {
+            data: "",
+            message: "",
+            status: 200
+        }
+        try{
+        let a : ISfcAssy =await db.sfcAssy.add(sfcBo, shopOrderBo, resourceBo, operationBo, prodMaterialBo, objectData[0].sumQty, objectData[0].material, userId);
+        resp.data = "sfcAssyCreated by ID = " + a.id;
+        resp.message= "Success";
+        }catch (e :any) {
+            resp.data = e.toString();
+            resp.message = "Error";
+            resp.status = 500;
+        }
 
+        return await resp;
     }
 }

@@ -23,6 +23,7 @@ function apiPOST (service , param,  afterMethod) {
         url: API_URL + service,
         type: "POST",
         data:param,
+        dataType:"json",
         async: false,
         success: function (data) {
             console.log("Ajax Response: " + data);

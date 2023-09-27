@@ -1,8 +1,8 @@
 import pgPromise from 'pg-promise'; // pg-promise core library
 import {Diagnostics} from './diagnostics'; // optional diagnostics
-import xsenv from "sap__xsenv";
+import xsenv, {JSONValue} from "@sap/xsenv";
 import {IInitOptions, IDatabase, IMain} from 'pg-promise';
-import {IExtensions, UsersRepository, ProductsRepository} from './repos';
+import {IExtensions, SfcAssyRepository} from './repos';
 
 type ExtendedProtocol = IDatabase<IExtensions> & IExtensions;
 
@@ -15,28 +15,43 @@ const initOptions: IInitOptions<IExtensions> = {
 
         // Do not use 'require()' here, because this event occurs for every task and transaction being executed,
         // which should be as fast as possible.
-        obj.users = new UsersRepository(obj, pgp);
-        obj.products = new ProductsRepository(obj, pgp);
+        obj.sfcAssy = new SfcAssyRepository(obj, pgp);
     }
 };
 function returnUriToDB() {
+        let hostname = JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').hostname).replaceAll("\"","");
+        let database = JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').dbname).replaceAll("\"","");
+        let user = JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').username).replaceAll("\"","");
+        let password = JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').password).replaceAll("\"","");
+        let cert = JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').sslcert).replaceAll("\"","");
+
+        let port :number = +JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').port);
+        console.log(port + "+");
+        if(isNaN(port)){
+            port = parseInt(JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').port));
+            console.log("parseInt" + port);
+        }
+        if(isNaN(port)){
+            port = 3951;
+            console.log("3951 hardcoded");
+        }
       return {
-            host: JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').hostname),
-            port: Number(JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').port)),
-            database: JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').dbname) ,
-            user: JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').username),
-            password: JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').password),
+            host: hostname,
+            port:  port,
+            database: database ,
+            user: user,
+            password: password,
             ssl: {
                 rejectUnauthorized : false,
-                ca   : JSON.stringify(xsenv.cfServiceCredentials('postgresql-cf').sslcert),
+                ca   : cert
             }
         }
 }
 // Initializing the library:
-const pgp: IMain = pgPromise(initOptions);
+const pgp = pgPromise(initOptions);
 
 // Creating the database instance with extensions:
-const db: ExtendedProtocol = pgp(returnUriToDB());
+const db = pgp(returnUriToDB());
 
 // Initializing optional diagnostics:
 Diagnostics.init(initOptions);

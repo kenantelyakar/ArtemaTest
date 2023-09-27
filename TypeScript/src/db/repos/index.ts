@@ -1,14 +1,11 @@
-import {UsersRepository} from './users';
-import {ProductsRepository} from './products';
+import {SfcAssyRepository} from './sfcAssy';
 
 // Database Interface Extensions:
 interface IExtensions {
-    users: UsersRepository,
-    products: ProductsRepository
+    sfcAssy: SfcAssyRepository,
 }
 
 export {
     IExtensions,
-    UsersRepository,
-    ProductsRepository
+    SfcAssyRepository
 };
