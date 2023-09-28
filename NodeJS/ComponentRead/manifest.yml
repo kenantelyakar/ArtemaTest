@@ -1,9 +1,0 @@
----
-applications:
-- name: nodejspostgres
-  path: .
-  buildpack: nodejs_buildpack
-  memory: 128M
-  services:
-  - postgresql-cf
-  - dest_EczPodPlugins
