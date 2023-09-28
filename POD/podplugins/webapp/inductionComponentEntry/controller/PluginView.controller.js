@@ -166,29 +166,27 @@ sap.ui.define([
             if (oData.filter((x) => x.valueState === sap.ui.core.ValueState.Error || x.valueDeleteState === sap.ui.core.ValueState.Error).length > 0)
                 return false;
             const plant = sap.dm.dme.util.PlantSettings.getCurrentPlant();
+            const oPodModel = this.getPodSelectionModel();
             var reqMethod = "POST";
             var url = "saveInductionComponents";
-            var reqBody = {
+            var reqBody = {"params":{
                 componentsList: this.componentsModel.getData().components,
                 site: plant,
                 insUser: this.getUserId(),
-                sfc: this.getPodSelectionModel().getOperations()[0].sfc,
-                shopOrder: "",
-                operation: "",
-                resource: "",
-                material: ""
-            };
-            apiPOST(url,reqBody,this.saveComponent);
-            /*standardAPIPOST(JSON.stringify(reqBody), reqMethod, url, this.formId, this.site)
-                .then(
-                    function (data) {
-                        this.saveHandler(data);
-                    }.bind(this)
-                );*/
+                sfc: oPodModel.getOperations()[0].sfc,
+                shopOrder: oPodModel.getSelection().shopOrder.shopOrder,
+                operation: oPodModel.getSelection().sfcData.operation,
+                resource: oPodModel.getSelection().sfcData.workCenter,
+                material: oPodModel.getSelection().sfcData.material
+            }};
+            apiPOST(url,reqBody,this.saveComponent.bind(this));
         },
         saveComponent : function (oData){
-          console.log(oData);
-        },
+            sap.m.MessageBox.success(oData.data, {
+                title: oData.message,
+                actions: sap.m.MessageBox.Action.OK
+            });
+            },
         addInputChanged: function (oEvent) {
             let oModel = this.getView().getModel("componentsModel");
             let dataIndex = oEvent.getSource().getBindingContext("componentsModel").sPath.split("/").reverse()[0];
@@ -219,10 +217,10 @@ sap.ui.define([
                 sfc: sfc
             };
             apiGET("getBomBySfc",params,this.refreshComponentData.bind(this)).bind(this);
-            if (this.isEventFiredByThisPlugin(oData)) {
+           /* if (this.isEventFiredByThisPlugin(oData)) {
                 console.log(oData);
                 return;
-            }
+            }*/
         },
 
         onWorkListSelectEvent: function (sChannelId, sEventId, oData) {

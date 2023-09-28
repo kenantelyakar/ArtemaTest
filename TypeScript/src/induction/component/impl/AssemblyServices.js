@@ -67,8 +67,12 @@ class AssemblyServices {
             status: 200
         };
         try {
-            let a = await db_1.db.sfcAssy.add(sfcBo, shopOrderBo, resourceBo, operationBo, prodMaterialBo, objectData[0].sumQty, objectData[0].material, userId);
-            resp.data = "sfcAssyCreated by ID = " + a.id;
+            let messageString = "";
+            for (let c of objectData) {
+                let a = await db_1.db.sfcAssy.add(sfcBo, shopOrderBo, resourceBo, operationBo, prodMaterialBo, c.userDefQty, c.material, userId);
+                messageString += " -Material: " + c.material + " Quantity: " + a.qty;
+            }
+            resp.data = "Bileşen Girişi tamamlandı SFC:" + sfcBo + messageString;
             resp.message = "Success";
         }
         catch (e) {

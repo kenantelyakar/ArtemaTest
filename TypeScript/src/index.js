@@ -25,14 +25,15 @@ app.post('/saveInductionComponents', (req, res, next) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, PATCH, DELETE");
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
-    let component = req.body.componentsList;
-    let plant = req.body.site;
-    let user = req.body.insUser;
-    let sfc = req.body.sfc;
-    let shopOrder = req.body.shopOrder;
-    let operation = req.body.operation;
-    let resource = req.body.resource;
-    let material = req.body.resource;
+    let params = JSON.parse(Object.keys(req.body)[0]).params;
+    let component = params.componentsList;
+    let plant = params.site;
+    let user = params.insUser;
+    let sfc = params.sfc;
+    let shopOrder = params.shopOrder;
+    let operation = params.operation;
+    let resource = params.resource;
+    let material = params.resource;
     AssemblyServices_1.AssemblyServices.saveInductionComponents(sfc, shopOrder, operation, resource, material, component, plant, user).then((v) => {
         res.json(v);
     }).catch(err => next(err));

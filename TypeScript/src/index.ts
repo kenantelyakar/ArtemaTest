@@ -27,17 +27,17 @@ app.get('/getBomBySfc', (req: Request, res: Response, next :NextFunction) => {
 });
 app.post('/saveInductionComponents',(req: Request, res: Response, next: NextFunction) =>{
     res.setHeader("Access-Control-Allow-Origin", "*");
-    res.setHeader(
-        "Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, PATCH, DELETE");
+    res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, PATCH, DELETE");
     res.setHeader('Access-Control-Allow-Headers','Content-Type');
-    let component = req.body.componentsList as InductionComponent[];
-    let plant = req.body.site as string;
-    let user = req.body.insUser as string;
-    let sfc = req.body.sfc as string;
-    let shopOrder  = req.body.shopOrder as string;
-    let operation = req.body.operation as string;
-    let resource = req.body.resource as string;
-    let material = req.body.resource as string;
+    let params = JSON.parse(Object.keys(req.body)[0]).params;
+    let component = params.componentsList as InductionComponent[];
+    let plant = params.site as string;
+    let user = params.insUser as string;
+    let sfc = params.sfc as string;
+    let shopOrder  = params.shopOrder as string;
+    let operation = params.operation as string;
+    let resource = params.resource as string;
+    let material = params.resource as string;
     AssemblyServices.saveInductionComponents(sfc,shopOrder,operation,resource,material,component,plant,user).then((v:ApiResponse)=>{
         res.json(v);
     }).catch(err=> next(err));
