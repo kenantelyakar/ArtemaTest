@@ -8,12 +8,12 @@
 <i>cf ssh rndbackend -N -T -L 9229:127.0.0.1:9229   </i>  
 <h5>After run the command in terminal:</h5>
 **Debug breakpoints should be at builded *.js files.
-![img.png](../img/img.png)
-![img_5.png](../img/img_5.png)
+<img src="../img/img.png">
+<img src="../img/img_5.png">
 <h3><b> *For connect to postgresql :</b></h3>
 <i>cf ssh rndbackend  -L 3951:&lt;DBHostname&gt;:&lt;DBPort&gt; </i>
 <h5>After run the command in terminal:</h5>
-![img_1.png](../img/img_1.png)
-![img_2.png](../img/img_2.png)
-![img_3.png](../img/img_3.png)
-![img_4.png](../img/img_4.png)
+<img src="../img/img_1.png">
+<img src="../img/img_2.png">
+<img src="../img/img_3.png">
+<img src="../img/img_4.png">
