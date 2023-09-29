@@ -16,7 +16,7 @@
                 <l:BlockLayoutRow accentCells="infoRow">
                     <l:BlockLayoutCell id="maxChargeQty" >
                         <m:Title text="{i18n>maxChargeQty}" level="H5"/>
-                        <m:Title id="chargeQty" text="{componentsModel>/bomQuantity}" level="H5"/>
+                        <m:Title id="chargeQty" text="-" level="H5"/>
                     </l:BlockLayoutCell>
                     <l:BlockLayoutCell id="deleteBlock">
                         <m:CheckBox text="{i18n>deleteQtyActive}" id="deleteMode" selected="false" />

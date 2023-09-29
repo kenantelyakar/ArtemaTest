@@ -7,16 +7,16 @@
 
 export interface ISfcAssy {
     id: number;
-    sfcBo: string;
-    shopOrderBo: string;
-    resourceBo: string;
-    operationBo: string;
-    componentBo: string;
+    sfc_bo: string;
+    shop_order_bo: string;
+    resource_bo: string;
+    operation_bo: string;
+    component_bo: string;
     qty: number;
-    bomComponentBo: string;
+    bom_component_bo: string;
     insUser: string;
     insDate: Date;
     updUser: string;
     updDate: Date;
-    isDeleted: string;
+    is_deleted: string;
 }

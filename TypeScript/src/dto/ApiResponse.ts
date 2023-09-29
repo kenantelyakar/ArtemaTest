@@ -1,5 +1,10 @@
-export type ApiResponse = {
-    status : number | string | undefined;
+export class ApiResponse {
+    status : number;
     message : string;
-    data : Object;
+    data : Object | undefined;
+    constructor() {
+        this.status = 200;
+        this.message = "";
+        this.data = "";
+    }
 }

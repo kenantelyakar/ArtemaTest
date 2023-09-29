@@ -64,8 +64,8 @@ export class SfcAssyRepository {
     }
 
     // Tries to find a user from name;
-    findBySfc(sfcBo: string): Promise<ISfcAssy | null> {
-        return this.db.oneOrNone('SELECT * FROM Z_SFC_ASSY WHERE SFC_BO = $1', sfcBo);
+    findBySfc(sfcBo: string): Promise<ISfcAssy[]> {
+        return this.db.any('SELECT * FROM Z_SFC_ASSY WHERE SFC_BO = $1', sfcBo);
     }
     markAsDeleteBySfc(sfcBo: string):Promise<number> {
         return this.db.result('UPDATE Z_SFC_ASSY SET IS_DELETED = ${"X"} WHERE SFC_BO = ${sfcBo}', [] , (r: IResult) => r.rowCount);

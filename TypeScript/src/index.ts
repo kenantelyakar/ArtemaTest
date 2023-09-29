@@ -21,7 +21,7 @@ app.get('/getBomBySfc', (req: Request, res: Response, next :NextFunction) => {
     );
     let plant  = req.query.plant as string;
     let sfc    = req.query.sfc as string;
-    AssemblyServices.getBOMInfoBySfc(plant,sfc).then((v: void| ComponentEntry)=>{
+    AssemblyServices.getBOMInfoBySfc(plant,sfc).then((v: ApiResponse)=>{
             res.json(v);
     }).catch(err => next(err));
 });

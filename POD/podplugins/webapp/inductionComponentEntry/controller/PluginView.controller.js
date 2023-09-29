@@ -47,6 +47,19 @@ sap.ui.define([
                     this.getView().getModel("componentsModel").refresh();
                 }
             }.bind(this));
+            try {
+                const plant = sap.dm.dme.util.PlantSettings.getCurrentPlant();
+                const sfc = this.getPodSelectionModel().getOperations()[0].sfc;
+                if (plant !== undefined && sfc !== undefined) {
+                    const params = {
+                        plant: plant,
+                        sfc: sfc
+                    };
+                    apiGET("getBomBySfc", params, this.refreshComponentData.bind(this)).bind(this);
+                }
+            }catch (e) {
+                console.warn("SFC bilgisi bulunamadı. " + e);
+            }
             /*induction Controls*/
         },
 
@@ -77,10 +90,9 @@ sap.ui.define([
         },
         refreshComponentData: function(oData){
             this.componentsModel = new sap.ui.model.json.JSONModel();
-            this.componentsModel.setData(oData);
+            this.componentsModel.setData(oData.data);
             this.getView().setModel(this.componentsModel,"componentsModel");
-            console.log(oData);
-            this.maxChargeQty = oData.bomQuantity;
+            this.maxChargeQty = oData.data.bomQuantity;
             this.getView().byId("chargeQty").setText(this.maxChargeQty);
             this.getView().byId("componentsListTable").selectAll();
             this.getView().byId("saveButton").setEnabled(true);
@@ -182,10 +194,18 @@ sap.ui.define([
             apiPOST(url,reqBody,this.saveComponent.bind(this));
         },
         saveComponent : function (oData){
-            sap.m.MessageBox.success(oData.data, {
-                title: oData.message,
-                actions: sap.m.MessageBox.Action.OK
-            });
+            if(oData.status < 300)
+                sap.m.MessageBox.success(oData.message, {title: "Başarılı", actions: sap.m.MessageBox.Action.OK});
+            else
+                sap.m.MessageBox.error(oData.message, {title: "Hata", actions: sap.m.MessageBox.Action.OK});
+
+            const plant = sap.dm.dme.util.PlantSettings.getCurrentPlant();
+            const sfc = this.getPodSelectionModel().getOperations()[0].sfc;
+            const params = {
+                plant: plant,
+                sfc: sfc
+            };
+            apiGET("getBomBySfc",params,this.refreshComponentData.bind(this)).bind(this);
             },
         addInputChanged: function (oEvent) {
             let oModel = this.getView().getModel("componentsModel");

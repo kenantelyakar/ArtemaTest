@@ -1,4 +1,5 @@
 "use strict";
+const ApiResponse_1 = require("../dto/ApiResponse");
 const sap_cf_axios_1 = require("sap-cf-axios");
 const RequestType_1 = require("../enum/RequestType");
 const cfAxios = require('sap-cf-axios').default;
@@ -11,15 +12,18 @@ class AxiosCaller {
                 .then(async function (value) { return await value.data; })
                 .catch(catchError);
             function catchError(err) {
-                let resp;
+                let resp = new ApiResponse_1.ApiResponse();
                 if (err instanceof sap_cf_axios_1.AxiosError) {
-                    resp = {
-                        status: err.status,
-                        data: err,
-                        message: err.message
-                    };
-                    return resp;
+                    resp.status = 500;
+                    resp.data = err;
+                    resp.message = err.message;
                 }
+                else {
+                    resp.status = 500;
+                    resp.data = "Unknown error: Axioscaller: 24";
+                    resp.message = "Error";
+                }
+                return resp;
             }
         }
         else if (RequestType_1.RequestType.POST || RequestType_1.RequestType.PUT || RequestType_1.RequestType.PATCH) {
@@ -29,15 +33,18 @@ class AxiosCaller {
             })
                 .catch(catchErrorPost);
             function catchErrorPost(err) {
-                let resp;
+                let resp = new ApiResponse_1.ApiResponse();
                 if (err instanceof sap_cf_axios_1.AxiosError) {
-                    resp = {
-                        status: err.status,
-                        data: err,
-                        message: err.message
-                    };
-                    return resp;
+                    resp.status = 500;
+                    resp.data = err;
+                    resp.message = err.message;
                 }
+                else {
+                    resp.status = 500;
+                    resp.data = "Unknown error: Axioscaller: 45";
+                    resp.message = "Error";
+                }
+                return resp;
             }
         }
     }

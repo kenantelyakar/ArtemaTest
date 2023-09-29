@@ -13,15 +13,19 @@ class AxiosCaller {
                 .then(async function (value: AxiosResponse) {return await value.data;})
                 .catch(catchError)
             function catchError(err: any) {
-                let resp: ApiResponse;
+                let resp: ApiResponse = new ApiResponse();
                 if (err instanceof AxiosError) {
-                    resp = {
-                        status: err.status,
-                        data: err,
-                        message: err.message
-                    };
-                    return resp;
-                }}
+                    resp.status = 500;
+                    resp.data = err;
+                    resp.message = err.message;
+                }
+                else {
+                    resp.status = 500;
+                    resp.data = "Unknown error: Axioscaller: 24";
+                    resp.message = "Error";
+                }
+                return resp;
+            }
         }
         else if (RequestType.POST || RequestType.PUT || RequestType.PATCH) {
             return await dmcAxios.post((apiType + method), params)
@@ -30,15 +34,18 @@ class AxiosCaller {
                 })
                 .catch(catchErrorPost)
             function catchErrorPost(err: any) {
-                let resp: ApiResponse;
+                let resp: ApiResponse = new ApiResponse();
                 if (err instanceof AxiosError) {
-                    resp = {
-                        status: err.status,
-                        data: err,
-                        message: err.message
-                    };
-                    return resp;
+                    resp.status = 500;
+                    resp.data = err;
+                    resp.message = err.message;
                 }
+                else {
+                    resp.status = 500;
+                    resp.data = "Unknown error: Axioscaller: 45";
+                    resp.message = "Error";
+                }
+                return resp;
             }
         }
     }
