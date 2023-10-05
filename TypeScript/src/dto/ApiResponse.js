@@ -4,7 +4,7 @@ exports.ApiResponse = void 0;
 class ApiResponse {
     constructor() {
         this.status = 200;
-        this.message = "";
+        this.message = "Success";
         this.data = "";
     }
 }

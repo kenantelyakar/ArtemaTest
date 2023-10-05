@@ -88,5 +88,19 @@ class AssemblyServices {
         }
         return resp;
     }
+    static async checkInductionComponentEntry(sfcBo, operationBo, resourceBo) {
+        let resp = new ApiResponse_1.ApiResponse();
+        try {
+            let a = await db_1.db.sfcAssy.checkComponentEntry(sfcBo, operationBo, resourceBo);
+            resp.data = { sfcEntryCount: a };
+            resp.status = 200;
+            resp.message = "Success";
+        }
+        catch (e) {
+            resp.message = e.toString();
+            resp.status = 500;
+        }
+        return resp;
+    }
 }
 exports.AssemblyServices = AssemblyServices;

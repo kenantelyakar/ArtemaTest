@@ -1,18 +1,19 @@
 import express, {Express, NextFunction, Request, Response} from 'express';
 import dotenv from 'dotenv';
-import bodyparser from 'body-parser';
 import {AssemblyServices} from "./induction/component/impl/AssemblyServices";
-import {ComponentEntry} from "./dto/induction/component/ComponentEntry";
 import {InductionComponent} from "./dto/induction/component/InductionComponent";
 import {ApiResponse} from "./dto/ApiResponse";
 import {db} from "./db";
+import * as XLSX from 'xlsx';
+import formidable from 'formidable';
+import {NCBatchUpload} from "./dto/batchUpload/NCBatchUpload";
+import {NCUploadService} from "./batchuploader/nonconformance/NCUploadService";
 
 dotenv.config();
 const app: Express = express();
 const port = process.env.PORT;
 app.use(express.urlencoded({extended:false}));
 app.use(express.json());
-
 app.get('/getBomBySfc', (req: Request, res: Response, next :NextFunction) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
@@ -25,6 +26,20 @@ app.get('/getBomBySfc', (req: Request, res: Response, next :NextFunction) => {
             res.json(v);
     }).catch(err => next(err));
 });
+app.get('/checkInductionComponentEntry', (req: Request, res: Response, next :NextFunction) => {
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader(
+        "Access-Control-Allow-Methods",
+        "OPTIONS, GET, POST, PUT, PATCH, DELETE"
+    );
+    let sfcBo    = req.query.sfc as string;
+    let operationBo    = req.query.operation as string;
+    let resourceBo    = req.query.resource as string;
+    AssemblyServices.checkInductionComponentEntry(sfcBo,operationBo,resourceBo).then((v: ApiResponse)=>{
+        res.json(v);
+    }).catch(err => next(err));
+});
+
 app.post('/saveInductionComponents',(req: Request, res: Response, next: NextFunction) =>{
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, PATCH, DELETE");
@@ -41,7 +56,41 @@ app.post('/saveInductionComponents',(req: Request, res: Response, next: NextFunc
     AssemblyServices.saveInductionComponents(sfc,shopOrder,operation,resource,material,component,plant,user).then((v:ApiResponse)=>{
         res.json(v);
     }).catch(err=> next(err));
-}) ;
+});
+app.post('/createNCCodesBatch',(req: Request, res: Response, next: NextFunction) =>{
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, PATCH, DELETE");
+    res.setHeader('Access-Control-Allow-Headers','Content-Type');
+    let params = JSON.parse(Object.keys(req.body)[0]).params;
+    let component = params as NCBatchUpload[];
+    NCUploadService.uploadBatch(component).then((v:ApiResponse)=>{
+        res.json(v);
+    }).catch(err=> next(err));
+});
+app.post('/getExcelToJson',(req: Request, res: Response, next: NextFunction) =>{
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, PATCH, DELETE");
+    res.setHeader('Access-Control-Allow-Headers','Content-Type');
+    const form = formidable({});
+    form.parse(req, (err, fields, files) => {
+            if (err) {
+                next(err);
+                return;
+            }
+            let excelBinary = files.myFileUpload;
+            let wb: XLSX.WorkBook;
+            if (excelBinary) {
+                // @ts-ignore
+                wb = XLSX.readFile(excelBinary.path);
+                wb.SheetNames.forEach(function (sheetName) {
+                    var oExcelRow = XLSX.utils.sheet_to_json(wb.Sheets[sheetName]); // this is the required data in Object format
+                    var sJSONData = JSON.stringify(oExcelRow); // this is the required data in String format
+                    res.send(sJSONData);
+                });
+            }
+        })
+    });
+
 app.get('/createTables',(req:Request, res:Response, next:NextFunction)=>{
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(

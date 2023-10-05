@@ -93,4 +93,17 @@ export abstract class AssemblyServices{
 
         return resp;
     }
+    static async checkInductionComponentEntry(sfcBo:string, operationBo:string, resourceBo:string) :Promise<ApiResponse>{
+        let resp :ApiResponse= new ApiResponse();
+        try{
+            let a = await db.sfcAssy.checkComponentEntry(sfcBo, operationBo, resourceBo);
+            resp.data = {sfcEntryCount : a};
+            resp.status = 200;
+            resp.message = "Success";
+        } catch (e :any) {
+        resp.message = e.toString();
+        resp.status = 500;
+        }
+        return resp;
+    }
 }

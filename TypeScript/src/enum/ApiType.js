@@ -7,4 +7,5 @@ var ApiType;
     ApiType["BOM"] = "/bom/v1";
     ApiType["SFC"] = "/sfc/v1";
     ApiType["MATERIAL"] = "/material/v1";
+    ApiType["NC_CODE"] = "/nonconformancecode/v1";
 })(ApiType = exports.ApiType || (exports.ApiType = {}));

@@ -75,7 +75,9 @@ export class SfcAssyRepository {
     all(): Promise<ISfcAssy[]> {
         return this.db.any('SELECT * FROM Z_SFC_ASSY');
     }
-
+    checkComponentEntry(sfcBo: string, operationBo:string, resourceBo: string): Promise<number>{
+        return this.db.one('SELECT count(*)  FROM z_sfc_assy WHERE sfc_bo= $1 AND operation_bo = $2 AND resource_bo = $3', [sfcBo,operationBo,resourceBo], (r:{count:string}) => +r.count);
+    }
     // Returns the total number of users;
     total(): Promise<number> {
         return this.db.one('SELECT count(*) FROM Z_SFC_ASSY', [], (a: { count: string }) => +a.count);

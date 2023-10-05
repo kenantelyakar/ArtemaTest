@@ -40,6 +40,11 @@ class AxiosCaller {
                     resp.data = err;
                     resp.message = err.message;
                 }
+                else if(err.data){
+                    resp.status = 500;
+                    resp.data = err.data.message;
+                    resp.message = "Error";
+                }
                 else {
                     resp.status = 500;
                     resp.data = "Unknown error: Axioscaller: 45";
