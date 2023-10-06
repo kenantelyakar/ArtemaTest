@@ -81,7 +81,12 @@ app.post('/createNCCodesBatch', (req, res, next) => {
     let params = JSON.parse(Object.keys(req.body)[0]).params;
     let component = params;
     NCUploadService_1.NCUploadService.uploadBatch(component).then((v) => {
-        res.json(v);
+        if (v.status !== 200 && v.status !== 201) {
+            res.status(500);
+            res.json(v);
+        }
+        else
+            res.json(v);
     }).catch(err => next(err));
 });
 app.post('/getExcelToJson', (req, res, next) => {

@@ -8,6 +8,7 @@ import * as XLSX from 'xlsx';
 import formidable from 'formidable';
 import {NCBatchUpload} from "./dto/batchUpload/NCBatchUpload";
 import {NCUploadService} from "./batchuploader/nonconformance/NCUploadService";
+import {AxiosError} from "sap-cf-axios";
 
 dotenv.config();
 const app: Express = express();
@@ -64,7 +65,12 @@ app.post('/createNCCodesBatch',(req: Request, res: Response, next: NextFunction)
     let params = JSON.parse(Object.keys(req.body)[0]).params;
     let component = params as NCBatchUpload[];
     NCUploadService.uploadBatch(component).then((v:ApiResponse)=>{
-        res.json(v);
+        if(v.status !== 200 && v.status !== 201) {
+            res.status(500)
+            res.json(v);
+        }
+        else
+            res.json(v);
     }).catch(err=> next(err));
 });
 app.post('/getExcelToJson',(req: Request, res: Response, next: NextFunction) =>{

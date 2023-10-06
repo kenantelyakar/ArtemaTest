@@ -27,6 +27,9 @@
                 </l:BlockLayoutRow>
                 <l:BlockLayoutRow accentCells="tableRow">
                     <l:BlockLayoutCell id="excelTableCell">
+                        <m:Button
+                                icon="sap-icon://add"
+                                press="handleAddRowPress"/>
                         <m:Table id="excelTable"/>
                     </l:BlockLayoutCell>
                 </l:BlockLayoutRow>

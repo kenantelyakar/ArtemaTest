@@ -35,9 +35,9 @@ class AxiosCaller {
             function catchErrorPost(err) {
                 let resp = new ApiResponse_1.ApiResponse();
                 if (err instanceof sap_cf_axios_1.AxiosError) {
-                    resp.status = 500;
-                    resp.data = err;
-                    resp.message = err.message;
+                    resp.status = err.response?.status;
+                    resp.data = err.response?.data;
+                    resp.message = err.response?.data.message;
                 }
                 else if (err.data) {
                     resp.status = 500;

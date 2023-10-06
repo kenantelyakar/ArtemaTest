@@ -52,10 +52,24 @@ sap.ui.define([
         onSaveBatchUpload(oData){
 
         },
+        cleanData: function (oData){
+            var newOData = oData;
+            var objKeys = Object.keys(oData[0]);
+            for(var x in oData){
+                var count = 0;
+                for(var y in objKeys)
+                    if(oData[x][objKeys[y]] === "" || oData[x][objKeys[y]]  === undefined) count++;
+                if(count === objKeys.length)
+                    newOData = oData.filter(z=> z!==oData[x]);
+            }
+            return newOData;
+        },
         handleUploadPress: function(oEvent) {
-            console.log(this.getView().getModel("excelModel").getData());
+            var oData = this.getView().getModel("excelModel").getData();
+            oData =this.cleanData(oData);
+            console.log(oData);
             var reqBody= {
-                "params": this.getView().getModel("excelModel").getData()
+                "params": oData
             }
             apiPOST("createNCCodesBatch",reqBody,this.onSaveBatchUpload.bind(this));
         },
@@ -93,12 +107,45 @@ sap.ui.define([
                     value : "{excelModel>"+txt+"}"
                 }));
             });
+            colArray.push(new sap.m.Column({
+                header: new sap.m.Label({
+                    text: ""
+                })
+            }));
+            cellArray.push(new sap.m.Button({
+                icon:"sap-icon://decline",
+                press:this.handleDeleteRowPress.bind(this)
+            }))
             for(var v = 0 ; v<=colArray.length -1; v++){
                 oTable.addColumn(colArray[v]);
             }
             oTable.bindItems("excelModel>/", new sap.m.ColumnListItem({
                 cells :cellArray
             }));
+        },
+        handleAddRowPress:function (oEvent){
+          var oModel = this.getView().getModel("excelModel");
+          if(oModel === undefined) return;
+          var oData = oModel.getData();
+          var oDataCopy = {};
+          var objKeys = Object.keys(oData[0]);
+           objKeys.forEach(x=> {
+               oDataCopy[x] = '';
+          });
+          oData.push(oDataCopy);
+          oModel.setData(oData);
+          oModel.refresh();
+        },
+        handleDeleteRowPress: function(oEvent){
+            var oModel = this.getView().getModel("excelModel");
+            if(oModel === undefined) return;
+            var oData = oModel.getData();
+            var oSource = oEvent.getSource();
+            var oSourcePath = oSource.getBindingContext("excelModel").getPath().split("/")[1];
+            var newOData = oData.filter(x=> x !== oData[oSourcePath]);
+            oModel.setData(newOData);
+            oModel.refresh();
+            console.log(oEvent.getSource().getId());
         },
         handleValueChange: function(oEvent) {
             var params = {

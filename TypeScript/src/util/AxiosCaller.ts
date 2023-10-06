@@ -36,9 +36,9 @@ class AxiosCaller {
             function catchErrorPost(err: any) {
                 let resp: ApiResponse = new ApiResponse();
                 if (err instanceof AxiosError) {
-                    resp.status = 500;
-                    resp.data = err;
-                    resp.message = err.message;
+                    resp.status = err.response?.status;
+                    resp.data = err.response?.data;
+                    resp.message = err.response?.data.message;
                 }
                 else if(err.data){
                     resp.status = 500;

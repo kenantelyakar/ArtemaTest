@@ -5,7 +5,7 @@ class ApiResponse {
     constructor() {
         this.status = 200;
         this.message = "Success";
-        this.data = "";
+        this.data = {};
     }
 }
 exports.ApiResponse = ApiResponse;

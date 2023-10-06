@@ -40,9 +40,15 @@ function apiGET (service , param,  afterMethod) {
 }
 */
 function apiPOST (service, param, afterMethod) {
-    $.post(API_URL + service,JSON.stringify(param),(data, status) => {
+   $.post(API_URL + service,JSON.stringify(param))
+       .done(function (data, status)  {
         afterMethod(data);
-    });
+    }).fail(function (e){
+       sap.m.MessageBox.error(e.responseJSON.message, {
+           title: "Error",
+           actions: sap.m.MessageBox.Action.CLOSE
+       });
+   });
 }
 function apiPOSTFile (service, param, afterMethod) {
     var vd = new FormData();
@@ -53,6 +59,11 @@ function apiPOSTFile (service, param, afterMethod) {
     }).then(a=>{
         a.json().then(r => {
             afterMethod(r);
+        });
+    }).catch(e =>{
+        sap.m.MessageBox.error(e.message, {
+            title: "Error",
+            actions: sap.m.MessageBox.Action.CLOSE
         });
     });
 }

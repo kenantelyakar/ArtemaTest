@@ -4,9 +4,23 @@ import {RequestType} from "../enum/RequestType";
 import type { BOM } from '../apisdk/sapdme_bom';
 import {NonConformanceCodeV2} from "../apisdk/sapdme_nonconformancecode";
 import {ApiResponse} from "../dto/ApiResponse";
+import {NCBatchUpload} from "../dto/batchUpload/NCBatchUpload";
 
 export class NCCodeApi {
-    static  async createNCCode(data: Object) : Promise<ApiResponse>{
-        return await AxiosCaller.callDMC(ApiType.NC_CODE,"/nonconformancecodes",RequestType.POST, data);
+    static  async createNCCode(data: NCBatchUpload[]) : Promise<ApiResponse>{
+        let apiResp = new ApiResponse();
+        for(let d of data){
+            let r : Object ={
+                status : d.NCStatus,
+                code : d.NCCode,
+                description : d.NCDescription,
+                category: d.NCCategory,
+                plant : d.plant
+            };
+            apiResp = await AxiosCaller.callDMC(ApiType.NC_CODE,"/nonconformancecodes",RequestType.POST, r);
+            if(typeof  apiResp.status == "number")
+                if(apiResp.status > 299) break;
+        }
+        return apiResp;
     }
 }
