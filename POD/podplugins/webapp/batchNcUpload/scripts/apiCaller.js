@@ -11,44 +11,26 @@ function apiGET (service , param,  afterMethod) {
             afterMethod(data);
         },
         error: function (error) {
+            this.getView().setBusy(false);
             sap.m.MessageBox.error(error.responseText, {
                 title: "Error",
                 actions: sap.m.MessageBox.Action.CLOSE
-            });
+            }.bind(this));
         },
     });
 }
-/*function apiPOST (service , param,  afterMethod) {
-    $.ajax({
-        url: API_URL + service,
-        type: "POST",
-        body:param,
-        data:param,
-        dataType:"json",
-        async: false,
-        success: function (data) {
-            console.log("Ajax Response: " + data);
-            afterMethod(data);
-        },
-        error: function (error) {
-            sap.m.MessageBox.error(error.responseText, {
-                title: "Error",
-                actions: sap.m.MessageBox.Action.CLOSE
-            });
-        },
-    });
-}
-*/
 function apiPOST (service, param, afterMethod) {
-   $.post(API_URL + service,JSON.stringify(param))
-       .done(function (data, status)  {
-        afterMethod(data);
-    }).fail(function (e){
-       sap.m.MessageBox.error(e.responseJSON.message, {
-           title: "Error",
-           actions: sap.m.MessageBox.Action.CLOSE
-       });
-   });
+    $.post(API_URL + service,JSON.stringify(param))
+       .done((data, status) => {
+           afterMethod(data);
+        })
+        .fail(function(e){
+            this.getView().setBusy(false);
+            sap.m.MessageBox.error(e.responseJSON.message, {
+                title: "Error",
+                actions: sap.m.MessageBox.Action.CLOSE
+            });
+        }.bind(this));
 }
 function apiPOSTFile (service, param, afterMethod) {
     var vd = new FormData();
@@ -60,44 +42,11 @@ function apiPOSTFile (service, param, afterMethod) {
         a.json().then(r => {
             afterMethod(r);
         });
-    }).catch(e =>{
+    }).catch(function(e) {
+        this.getView().setBusy(false);
         sap.m.MessageBox.error(e.message, {
             title: "Error",
             actions: sap.m.MessageBox.Action.CLOSE
         });
-    });
-}
-
-function standardAPI(param, method, url) {
-
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            url: url,
-            type: method,
-            data: param,
-            success: function (data) {
-                resolve(data);
-            },
-            error: function (error) {
-                reject(error);
-            },
-        });
-    });
-}
-
-function customAPIGet   (method, url) {
-
-    return new Promise(function (resolve, reject) {
-        $.ajax({
-            url: url,
-            type: method,
-            beforeSend: function (xhr) { },
-            success: function (data) {
-                resolve(data);
-            },
-            error: function (error) {
-                reject(error);
-            },
-        });
-    });
+    }.bind(this));
 }

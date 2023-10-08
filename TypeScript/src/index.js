@@ -28,11 +28,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
 const dotenv_1 = __importDefault(require("dotenv"));
-const AssemblyServices_1 = require("./induction/component/impl/AssemblyServices");
+const AssemblyServices_1 = require("./srv/impl/component/AssemblyServices");
 const db_1 = require("./db");
 const XLSX = __importStar(require("xlsx"));
 const formidable_1 = __importDefault(require("formidable"));
-const NCUploadService_1 = require("./batchuploader/nonconformance/NCUploadService");
+const NCUploadService_1 = require("./srv/impl/batchUpload/NCUploadService");
 dotenv_1.default.config();
 const app = (0, express_1.default)();
 const port = process.env.PORT;
@@ -44,7 +44,16 @@ app.get('/getBomBySfc', (req, res, next) => {
     let plant = req.query.plant;
     let sfc = req.query.sfc;
     AssemblyServices_1.AssemblyServices.getBOMInfoBySfc(plant, sfc).then((v) => {
-        res.json(v);
+        if (v.status !== 200 && v.status !== 201) {
+            if (typeof v.status === "number") {
+                res.status(v.status);
+            }
+            else
+                res.status(500);
+            res.json(v);
+        }
+        else
+            res.json(v);
     }).catch(err => next(err));
 });
 app.get('/checkInductionComponentEntry', (req, res, next) => {
@@ -54,7 +63,16 @@ app.get('/checkInductionComponentEntry', (req, res, next) => {
     let operationBo = req.query.operation;
     let resourceBo = req.query.resource;
     AssemblyServices_1.AssemblyServices.checkInductionComponentEntry(sfcBo, operationBo, resourceBo).then((v) => {
-        res.json(v);
+        if (v.status !== 200 && v.status !== 201) {
+            if (typeof v.status === "number") {
+                res.status(v.status);
+            }
+            else
+                res.status(500);
+            res.json(v);
+        }
+        else
+            res.json(v);
     }).catch(err => next(err));
 });
 app.post('/saveInductionComponents', (req, res, next) => {
@@ -71,7 +89,16 @@ app.post('/saveInductionComponents', (req, res, next) => {
     let resource = params.resource;
     let material = params.resource;
     AssemblyServices_1.AssemblyServices.saveInductionComponents(sfc, shopOrder, operation, resource, material, component, plant, user).then((v) => {
-        res.json(v);
+        if (v.status !== 200 && v.status !== 201) {
+            if (typeof v.status === "number") {
+                res.status(v.status);
+            }
+            else
+                res.status(500);
+            res.json(v);
+        }
+        else
+            res.json(v);
     }).catch(err => next(err));
 });
 app.post('/createNCCodesBatch', (req, res, next) => {
@@ -82,7 +109,11 @@ app.post('/createNCCodesBatch', (req, res, next) => {
     let component = params;
     NCUploadService_1.NCUploadService.uploadBatch(component).then((v) => {
         if (v.status !== 200 && v.status !== 201) {
-            res.status(500);
+            if (typeof v.status === "number") {
+                res.status(v.status);
+            }
+            else
+                res.status(500);
             res.json(v);
         }
         else
@@ -112,7 +143,7 @@ app.post('/getExcelToJson', (req, res, next) => {
         }
     });
 });
-app.get('/createTables', (req, res, next) => {
+app.get('/createTables', (req, res) => {
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader("Access-Control-Allow-Methods", "OPTIONS, GET, POST, PUT, PATCH, DELETE");
     db_1.db.sfcAssy.create();

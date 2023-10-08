@@ -1,6 +1,6 @@
-import AxiosCaller from "../util/AxiosCaller";
-import {ApiType} from "../enum/ApiType";
-import {RequestType} from "../enum/RequestType";
+import AxiosCaller from "./util/AxiosCaller";
+import {ApiType} from "./enum/ApiType";
+import {RequestType} from "./enum/RequestType";
 import {MaterialResponse} from "../apisdk/sapdme_material";
 
 export class MaterialApi {

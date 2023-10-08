@@ -1,14 +1,13 @@
 import express, {Express, NextFunction, Request, Response} from 'express';
 import dotenv from 'dotenv';
-import {AssemblyServices} from "./induction/component/impl/AssemblyServices";
-import {InductionComponent} from "./dto/induction/component/InductionComponent";
-import {ApiResponse} from "./dto/ApiResponse";
+import {AssemblyServices} from "./srv/impl/component/AssemblyServices";
+import {InductionComponent} from "./srv/dto/induction/component/InductionComponent";
+import {ApiResponse} from "./srv/dto/ApiResponse";
 import {db} from "./db";
 import * as XLSX from 'xlsx';
 import formidable from 'formidable';
-import {NCBatchUpload} from "./dto/batchUpload/NCBatchUpload";
-import {NCUploadService} from "./batchuploader/nonconformance/NCUploadService";
-import {AxiosError} from "sap-cf-axios";
+import {NCBatchUpload} from "./srv/dto/batchUpload/NCBatchUpload";
+import {NCUploadService} from "./srv/impl/batchUpload/NCUploadService";
 
 dotenv.config();
 const app: Express = express();
@@ -24,6 +23,14 @@ app.get('/getBomBySfc', (req: Request, res: Response, next :NextFunction) => {
     let plant  = req.query.plant as string;
     let sfc    = req.query.sfc as string;
     AssemblyServices.getBOMInfoBySfc(plant,sfc).then((v: ApiResponse)=>{
+        if(v.status !== 200 && v.status !== 201) {
+            if (typeof v.status === "number") {
+                res.status(v.status);
+            }
+            else res.status(500);
+            res.json(v);
+        }
+        else
             res.json(v);
     }).catch(err => next(err));
 });
@@ -37,7 +44,15 @@ app.get('/checkInductionComponentEntry', (req: Request, res: Response, next :Nex
     let operationBo    = req.query.operation as string;
     let resourceBo    = req.query.resource as string;
     AssemblyServices.checkInductionComponentEntry(sfcBo,operationBo,resourceBo).then((v: ApiResponse)=>{
-        res.json(v);
+        if(v.status !== 200 && v.status !== 201) {
+            if (typeof v.status === "number") {
+                res.status(v.status);
+            }
+            else res.status(500);
+            res.json(v);
+        }
+        else
+            res.json(v);
     }).catch(err => next(err));
 });
 
@@ -55,7 +70,15 @@ app.post('/saveInductionComponents',(req: Request, res: Response, next: NextFunc
     let resource = params.resource as string;
     let material = params.resource as string;
     AssemblyServices.saveInductionComponents(sfc,shopOrder,operation,resource,material,component,plant,user).then((v:ApiResponse)=>{
-        res.json(v);
+        if(v.status !== 200 && v.status !== 201) {
+            if (typeof v.status === "number") {
+                res.status(v.status);
+            }
+            else res.status(500);
+            res.json(v);
+        }
+        else
+            res.json(v);
     }).catch(err=> next(err));
 });
 app.post('/createNCCodesBatch',(req: Request, res: Response, next: NextFunction) =>{
@@ -66,7 +89,10 @@ app.post('/createNCCodesBatch',(req: Request, res: Response, next: NextFunction)
     let component = params as NCBatchUpload[];
     NCUploadService.uploadBatch(component).then((v:ApiResponse)=>{
         if(v.status !== 200 && v.status !== 201) {
-            res.status(500)
+            if (typeof v.status === "number") {
+                res.status(v.status);
+            }
+            else res.status(500);
             res.json(v);
         }
         else
@@ -97,7 +123,7 @@ app.post('/getExcelToJson',(req: Request, res: Response, next: NextFunction) =>{
         })
     });
 
-app.get('/createTables',(req:Request, res:Response, next:NextFunction)=>{
+app.get('/createTables',(req:Request, res:Response)=>{
     res.setHeader("Access-Control-Allow-Origin", "*");
     res.setHeader(
         "Access-Control-Allow-Methods",

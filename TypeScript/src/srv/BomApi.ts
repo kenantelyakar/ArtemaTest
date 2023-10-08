@@ -1,6 +1,6 @@
-import AxiosCaller from "../util/AxiosCaller";
-import {ApiType} from "../enum/ApiType";
-import {RequestType} from "../enum/RequestType";
+import AxiosCaller from "./util/AxiosCaller";
+import {ApiType} from "./enum/ApiType";
+import {RequestType} from "./enum/RequestType";
 import type { BOM } from '../apisdk/sapdme_bom';
 
 export class BomApi{

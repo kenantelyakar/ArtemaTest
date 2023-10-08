@@ -49,9 +49,12 @@ sap.ui.define([
 
         onAfterRendering: function () {
         },
-        onSaveBatchUpload(oData){
 
+        onSaveBatchUpload(oData){
+            MessageToast.show(this.getI18nText('success'), { duration: 1000 });
+            this.getView().setBusy(false);
         },
+
         cleanData: function (oData){
             var newOData = oData;
             var objKeys = Object.keys(oData[0]);
@@ -65,13 +68,17 @@ sap.ui.define([
             return newOData;
         },
         handleUploadPress: function(oEvent) {
+            var oModel =this.getView().getModel("excelModel");
+            if(oModel === undefined) return;
+            if(oModel.getData() === undefined) return;
+            this.getView().setBusy(true,0);
             var oData = this.getView().getModel("excelModel").getData();
             oData =this.cleanData(oData);
             console.log(oData);
             var reqBody= {
                 "params": oData
             }
-            apiPOST("createNCCodesBatch",reqBody,this.onSaveBatchUpload.bind(this));
+            apiPOST.bind(this)("createNCCodesBatch",reqBody,this.onSaveBatchUpload.bind(this));
         },
 
         handleTypeMissmatch: function(oEvent) {
@@ -122,6 +129,7 @@ sap.ui.define([
             oTable.bindItems("excelModel>/", new sap.m.ColumnListItem({
                 cells :cellArray
             }));
+            this.getView().setBusy(false);
         },
         handleAddRowPress:function (oEvent){
           var oModel = this.getView().getModel("excelModel");
@@ -148,10 +156,11 @@ sap.ui.define([
             console.log(oEvent.getSource().getId());
         },
         handleValueChange: function(oEvent) {
+            this.getView().setBusy(true,0);
             var params = {
                 myFileUpload: oEvent.getParameter("files")[0]
             }
-            apiPOSTFile("getExcelToJson",params,this.readFile.bind(this));
+            apiPOSTFile.bind(this)("getExcelToJson",params,this.readFile.bind(this));
             MessageToast.show(this.getI18nText('controlXlsxFileInfo'));
         },
 
@@ -170,11 +179,7 @@ sap.ui.define([
                 plant: plant,
                 sfc: sfc
             };
-            apiGET("getBomBySfc",params,this.refreshComponentData.bind(this)).bind(this);
-           /* if (this.isEventFiredByThisPlugin(oData)) {
-                console.log(oData);
-                return;
-            }*/
+            apiGET("getBomBySfc",params,this.refreshComponentData.bind(this));
         },
 
         onWorkListSelectEvent: function (sChannelId, sEventId, oData) {

@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AssemblyServices = void 0;
-const BomApi_1 = require("../../../srv/BomApi");
-const OrderApi_1 = require("../../../srv/OrderApi");
-const ComponentEntry_1 = require("../../../dto/induction/component/ComponentEntry");
-const InductionComponent_1 = require("../../../dto/induction/component/InductionComponent");
-const MaterialApi_1 = require("../../../srv/MaterialApi");
+const BomApi_1 = require("../../BomApi");
+const OrderApi_1 = require("../../OrderApi");
+const ComponentEntry_1 = require("../../dto/induction/component/ComponentEntry");
+const InductionComponent_1 = require("../../dto/induction/component/InductionComponent");
+const MaterialApi_1 = require("../../MaterialApi");
 const db_1 = require("../../../db");
-const ApiResponse_1 = require("../../../dto/ApiResponse");
+const ApiResponse_1 = require("../../dto/ApiResponse");
 class AssemblyServices {
     static async getBOMInfoBySfc(plant, sfc) {
         let apiResp = new ApiResponse_1.ApiResponse();
@@ -57,8 +57,6 @@ class AssemblyServices {
             componentsResponse.bomQuantity = Number(bomResp[0].customValues.filter((a) => { return a.attribute == "BOM_QUANTITY"; })[0].value);
             componentsResponse.components = oCArray;
             apiResp.data = componentsResponse;
-            apiResp.message = "Success";
-            apiResp.status = 200;
         }
         catch (e) {
             apiResp.data = e.toString();
@@ -93,8 +91,6 @@ class AssemblyServices {
         try {
             let a = await db_1.db.sfcAssy.checkComponentEntry(sfcBo, operationBo, resourceBo);
             resp.data = { sfcEntryCount: a };
-            resp.status = 200;
-            resp.message = "Success";
         }
         catch (e) {
             resp.message = e.toString();

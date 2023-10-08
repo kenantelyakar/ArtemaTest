@@ -1,7 +1,6 @@
 import {ApiResponse} from "../../dto/ApiResponse";
 import {NCBatchUpload} from "../../dto/batchUpload/NCBatchUpload";
-import {NonconformanceCodeApi, NonConformanceCodeV2} from "../../apisdk/sapdme_nonconformancecode";
-import {NCCodeApi} from "../../srv/NCCodeApi";
+import {NCCodeApi} from "../../NCCodeApi";
 
 export abstract class NCUploadService {
     static async uploadBatch(data: NCBatchUpload[]): Promise<ApiResponse> {

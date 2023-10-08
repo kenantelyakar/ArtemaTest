@@ -1,12 +1,12 @@
 import {BomComponent, CustomValue} from '../../../apisdk/sapdme_bom';
-import {BomApi} from "../../../srv/BomApi";
-import {OrderApi} from "../../../srv/OrderApi";
-import {ComponentEntry} from "../../../dto/induction/component/ComponentEntry";
-import {InductionComponent} from "../../../dto/induction/component/InductionComponent";
-import {MaterialApi} from "../../../srv/MaterialApi";
+import {BomApi} from "../../BomApi";
+import {OrderApi} from "../../OrderApi";
+import {ComponentEntry} from "../../dto/induction/component/ComponentEntry";
+import {InductionComponent} from "../../dto/induction/component/InductionComponent";
+import {MaterialApi} from "../../MaterialApi";
 import {MaterialResponse} from "../../../apisdk/sapdme_material";
 import {db} from '../../../db';
-import {ApiResponse} from "../../../dto/ApiResponse";
+import {ApiResponse} from "../../dto/ApiResponse";
 import {ISfcAssy} from "../../../db/models";
 
 export abstract class AssemblyServices{
@@ -60,8 +60,6 @@ export abstract class AssemblyServices{
             componentsResponse.bomQuantity = Number(bomResp[0].customValues.filter((a: CustomValue)=> {return a.attribute == "BOM_QUANTITY"})[0].value);
             componentsResponse.components = oCArray;
             apiResp.data = componentsResponse;
-            apiResp.message = "Success";
-            apiResp.status = 200;
         }
         catch (e: any){
             apiResp.data = e.toString();
@@ -69,7 +67,6 @@ export abstract class AssemblyServices{
             apiResp.status = 500;
         }
         return apiResp;
-
     }
 
     static async saveInductionComponents(sfcBo: string,shopOrderBo: string, operationBo: string, resourceBo: string,prodMaterialBo: string,objectData: InductionComponent[], plant: string, userId: string):Promise<ApiResponse>{
@@ -98,11 +95,10 @@ export abstract class AssemblyServices{
         try{
             let a = await db.sfcAssy.checkComponentEntry(sfcBo, operationBo, resourceBo);
             resp.data = {sfcEntryCount : a};
-            resp.status = 200;
-            resp.message = "Success";
-        } catch (e :any) {
-        resp.message = e.toString();
-        resp.status = 500;
+        }
+        catch (e :any) {
+            resp.message = e.toString();
+            resp.status = 500;
         }
         return resp;
     }
