@@ -1,6 +1,4 @@
 .vscode
 .idea
 /node_modules
-/openapi
 package-lock.json
-/src/apisdk
