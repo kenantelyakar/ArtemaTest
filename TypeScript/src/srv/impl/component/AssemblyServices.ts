@@ -8,6 +8,11 @@ import {MaterialResponse} from "../../../apisdk/sapdme_material";
 import {db} from '../../../db';
 import {ApiResponse} from "../../dto/ApiResponse";
 import {ISfcAssy} from "../../../db/models";
+import {
+    ActivityConfirmationApi,
+    ActivityConfirmationRequest,
+    ActivityRequest
+} from "../../../apisdk/sapdme_processorder";
 
 export abstract class AssemblyServices{
     static  async getBOMInfoBySfc(plant: string , sfc: string): Promise<ApiResponse>{
